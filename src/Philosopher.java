@@ -81,7 +81,7 @@ public class Philosopher extends BaseThread
 			 * A decision is made at random whether this particular
 			 * philosopher is about to say something terribly useful.
 			 */
-			if(..) // A random decison 
+			if(true) // A random decison //TODO change this back, it wouldn't compile
 			{
 				// Some monitor ops down here...
 				talk();
