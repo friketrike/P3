@@ -1,4 +1,5 @@
 import common.BaseThread;
+// Random has been imported in BaseThread
 
 /**
  * Class Philosopher.
@@ -21,6 +22,7 @@ public class Philosopher extends BaseThread
 	 */
 	public void eat()
 	{
+		inform("eating", true);
 		try
 		{
 			// ...
@@ -33,6 +35,7 @@ public class Philosopher extends BaseThread
 			DiningPhilosophers.reportException(e);
 			System.exit(1);
 		}
+		inform("eating", false);
 	}
 
 	/**
@@ -43,7 +46,18 @@ public class Philosopher extends BaseThread
 	 */
 	public void think()
 	{
-		// ...
+		inform("thinking", true);
+		try
+		{
+			sleep((long)(Math.random() * TIME_TO_WASTE));
+		}
+		catch(InterruptedException e)
+		{
+			System.err.println("Philosopher.eat():");
+			DiningPhilosophers.reportException(e);
+			System.exit(1);
+		}
+		inform("thinking", false);
 	}
 
 	/**
@@ -54,11 +68,11 @@ public class Philosopher extends BaseThread
 	 */
 	public void talk()
 	{
-		// ...
+		inform("talking", true);
 
 		saySomething();
 
-		// ...
+		inform("talking", false);
 	}
 
 	/**
@@ -112,6 +126,17 @@ public class Philosopher extends BaseThread
 			"Philosopher " + getTID() + " says: " +
 			astrPhrases[(int)(Math.random() * astrPhrases.length)]
 		);
+	}
+	
+	// Avoid code repetition...
+	private void inform(String activity, boolean isStart){
+		String phase;
+		if(isStart)
+			phase = "started";
+		else
+			phase = "finished";
+		System.out.println("Philosopher " + getTID() + " has "+phase+" "+activity+".");
+		
 	}
 }
 

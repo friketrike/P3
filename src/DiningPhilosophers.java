@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Class DiningPhilosophers 
  * The main starter.
@@ -47,6 +49,27 @@ public class DiningPhilosophers
 			 * or the default if no arguments supplied.
 			 */
 			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+			if (argv.length != 0){
+				try{
+					iPhilosophers = Integer.parseInt(argv[0]);
+				}catch(NumberFormatException e){
+					System.err.println("Usage: java DiningPhilosophers <numberPhilosophers>,\n"
+							+ "the optional argument must be an integer");
+					Scanner sc = new Scanner(System.in);
+					boolean isInt = false;
+			        while(!isInt){
+			            System.out.println("please enter a number of philosophers,\n"
+			            		+ "press enter for default "
+			            		+ "or Ctrl-c to exit");
+			            String s = sc.next();
+			            if(s.matches("^[\\d]+$")){
+			            	isInt = true;
+			            	iPhilosophers = Integer.parseInt(s);
+			            }
+			            
+			        }
+				}
+			}
 
 			// Make the monitor aware of how many philosophers there are
 			soMonitor = new Monitor(iPhilosophers);
