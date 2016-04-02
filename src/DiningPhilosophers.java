@@ -68,6 +68,7 @@ public class DiningPhilosophers
 			            }
 			            
 			        }
+			        sc.close();
 				}
 			}
 
