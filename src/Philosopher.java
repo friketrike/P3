@@ -25,9 +25,7 @@ public class Philosopher extends BaseThread
 		inform("eating", true);
 		try
 		{
-			// ...
 			sleep((long)(Math.random() * TIME_TO_WASTE));
-			// ...
 		}
 		catch(InterruptedException e)
 		{
@@ -53,7 +51,7 @@ public class Philosopher extends BaseThread
 		}
 		catch(InterruptedException e)
 		{
-			System.err.println("Philosopher.eat():");
+			System.err.println("Philosopher.think():");
 			DiningPhilosophers.reportException(e);
 			System.exit(1);
 		}
@@ -71,6 +69,13 @@ public class Philosopher extends BaseThread
 		inform("talking", true);
 
 		saySomething();
+		try{ // take some time to talk, less than eating though
+			sleep((long)(Math.random() * TIME_TO_WASTE * 0.5));
+		}catch(InterruptedException e){
+			System.err.println("Philosopher.talk():");
+			DiningPhilosophers.reportException(e);
+			System.exit(1);
+		}
 
 		inform("talking", false);
 	}
@@ -95,10 +100,11 @@ public class Philosopher extends BaseThread
 			 * A decision is made at random whether this particular
 			 * philosopher is about to say something terribly useful.
 			 */
-			if(true) // A random decison //TODO change this back, it wouldn't compile
+			if(Math.random() >= 0.5) // Toss a coin
 			{
-				// Some monitor ops down here...
+				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
+				DiningPhilosophers.soMonitor.endTalk();
 				// ...
 			}
 
