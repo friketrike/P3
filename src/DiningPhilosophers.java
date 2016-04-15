@@ -26,7 +26,7 @@ public class DiningPhilosophers
 	public static final int DINING_STEPS = 10;
 
 	/**
-	 * Our shared monitor for the philosphers to consult
+	 * Our shared monitor for the philosophers to consult
 	 */
 	public static Monitor soMonitor = null;
 
@@ -49,10 +49,10 @@ public class DiningPhilosophers
 			 * or the default if no arguments supplied.
 			 */
 			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
-			if (argv.length != 0){
-				try{
+			if (argv.length != 0) {
+				try {
 					iPhilosophers = Integer.parseInt(argv[0]);
-				}catch(NumberFormatException e){
+				} catch(NumberFormatException e) {
 					System.err.println("Usage: java DiningPhilosophers <numberPhilosophers>,\n"
 							+ "the optional argument must be an integer");
 					Scanner sc = new Scanner(System.in);
@@ -62,7 +62,7 @@ public class DiningPhilosophers
 			            		+ "press enter for default "
 			            		+ "or Ctrl-c to exit");
 			            String s = sc.next();
-			            if(s.matches("^[\\d]+$")){
+			            if(s.matches("^[\\d]+$")) {
 			            	isInt = true;
 			            	iPhilosophers = Integer.parseInt(s);
 			            }
@@ -79,27 +79,22 @@ public class DiningPhilosophers
 			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
 
 			// Let 'em sit down
-			for(int j = 0; j < iPhilosophers; j++)
-			{
+			for(int j = 0; j < iPhilosophers; j++) {
 				aoPhilosophers[j] = new Philosopher();
 				aoPhilosophers[j].start();
 			}
 
-			System.out.println
-			(
-				iPhilosophers +
-				" philosopher(s) came in for a dinner."
-			);
+			System.out.println(iPhilosophers 
+					+ " philosopher(s) came in for a dinner.");
 
 			// Main waits for all its children to die...
 			// I mean, philosophers to finish their dinner.
-			for(int j = 0; j < iPhilosophers; j++)
+			for(int j = 0; j < iPhilosophers; j++) {
 				aoPhilosophers[j].join();
+			}
 
 			System.out.println("All philosophers have left. System terminates normally.");
-		}
-		catch(InterruptedException e)
-		{
+		} catch(InterruptedException e) {
 			System.err.println("main():");
 			reportException(e);
 			System.exit(1);

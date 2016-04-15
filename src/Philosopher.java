@@ -3,12 +3,11 @@ import common.BaseThread;
 
 /**
  * Class Philosopher.
- * Outlines main subrutines of our virtual philosopher.  
+ * Outlines main subroutines of our virtual philosopher.  
  * 
  * @author Serguei A. Mokhov, mokhov@cs.concordia.ca
  */
-public class Philosopher extends BaseThread
-{
+public class Philosopher extends BaseThread {
 	/**
 	 * Max time an action can take (in milliseconds)   
 	 */
@@ -20,19 +19,20 @@ public class Philosopher extends BaseThread
 	 * - Then sleep() for a random interval.
 	 * - The print that they are done eating.
 	 */
-	public void eat()
-	{
+	public void eat() {
 		inform("eating", true);
-		try
-		{
+		try {
 			sleep((long)(Math.random() * TIME_TO_WASTE));
-		}
-		catch(InterruptedException e)
-		{
+		} catch(InterruptedException e) {
 			System.err.println("Philosopher.eat():");
 			DiningPhilosophers.reportException(e);
 			System.exit(1);
 		}
+		
+		/* 
+		 * see helper function, just print info 
+		 * keeping the code readable
+		 */
 		inform("eating", false);
 	}
 
@@ -42,15 +42,11 @@ public class Philosopher extends BaseThread
 	 * - Then sleep() for a random interval.
 	 * - The print that they are done thinking.
 	 */
-	public void think()
-	{
+	public void think() {
 		inform("thinking", true);
-		try
-		{
+		try {
 			sleep((long)(Math.random() * TIME_TO_WASTE));
-		}
-		catch(InterruptedException e)
-		{
+		} catch(InterruptedException e) {
 			System.err.println("Philosopher.think():");
 			DiningPhilosophers.reportException(e);
 			System.exit(1);
@@ -69,9 +65,9 @@ public class Philosopher extends BaseThread
 		inform("talking", true);
 
 		saySomething();
-		try{ // take some time to talk, less than eating though
+		try { // take some time to talk, less than eating though
 			sleep((long)(Math.random() * TIME_TO_WASTE * 0.5));
-		}catch(InterruptedException e){
+		} catch(InterruptedException e) {
 			System.err.println("Philosopher.talk():");
 			DiningPhilosophers.reportException(e);
 			System.exit(1);
@@ -83,10 +79,8 @@ public class Philosopher extends BaseThread
 	/**
 	 * No, this is not the act of running, just the overridden Thread.run()
 	 */
-	public void run()
-	{
-		for(int i = 0; i < DiningPhilosophers.DINING_STEPS; i++)
-		{
+	public void run() {
+		for(int i = 0; i < DiningPhilosophers.DINING_STEPS; i++) {
 			DiningPhilosophers.soMonitor.pickUp(getTID());
 
 			eat();
@@ -100,15 +94,11 @@ public class Philosopher extends BaseThread
 			 * A decision is made at random whether this particular
 			 * philosopher is about to say something terribly useful.
 			 */
-			if(Math.random() >= 0.5) // Toss a coin
-			{
+			if(Math.random() >= 0.5) { // Toss a coin
 				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
 				DiningPhilosophers.soMonitor.endTalk();
-				// ...
 			}
-
-
 		}
 	} // run()
 
@@ -116,10 +106,8 @@ public class Philosopher extends BaseThread
 	 * Prints out a phrase from the array of phrases at random.
 	 * Feel free to add your own phrases.
 	 */
-	public void saySomething()
-	{
-		String[] astrPhrases =
-		{
+	public void saySomething() {
+		String[] astrPhrases = {
 			"Eh, it's not easy to be a philosopher: eat, think, talk, eat...",
 			"You know, true is false and false is true if you think of it",
 			"2 + 2 = 5 for extremely large values of 2...",
@@ -127,15 +115,18 @@ public class Philosopher extends BaseThread
 			"My number is " + getTID() + ""
 		};
 
-		System.out.println
-		(
-			"Philosopher " + getTID() + " says: " +
-			astrPhrases[(int)(Math.random() * astrPhrases.length)]
-		);
+		System.out.println("Philosopher " + getTID() + " says: " 
+				+ astrPhrases[(int)(Math.random() * astrPhrases.length)]);
 	}
 	
-	// Avoid code repetition...
-	private void inform(String activity, boolean isStart){
+	/**
+	 * Helper function to avoid repeating code and make other functions 
+	 * more readable. Print out information according to the parameters
+	 * given
+	 * @param activity what is being started or finished 
+	 * @param isStart when we're informing, we're either starting or finishing  
+	 */
+	private void inform(String activity, boolean isStart) {
 		String phase;
 		if(isStart)
 			phase = "started";
